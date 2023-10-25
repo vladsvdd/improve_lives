@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Этот файл описывает миграцию для создания таблицы 'bot_message'. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!-- Этот changeSet определяет создание таблицы 'bot_message'. -->
+    <changeSet id="9" author="your_name">
+        <!-- Операция создания таблицы 'bot_message'. -->
+        <createTable tableName="bot_message">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT" defaultValue="0"/>
+            <column name="message_id" type="BIGINT" defaultValue="0"/>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+        <sql>
+            -- Добавление комментариев к столбцам
+            ALTER TABLE bot_message
+            MODIFY COLUMN user_id BIGINT COMMENT 'id user',
+            MODIFY COLUMN message_id INT COMMENT 'id сообщения. Будем хранить сообщения от бота с кнопками',
+            MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата создания записи',
+            MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Дата
+            обновления записи';
+        </sql>
+        <!-- Операция отката для удаления таблицы 'bot_message'. -->
+        <rollback>
+            <dropTable tableName="bot_message"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

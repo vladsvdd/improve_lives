@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Этот файл описывает миграцию для создания таблицы 'user_activity'. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!-- Этот changeSet определяет создание таблицы 'user_activity'. -->
+    <changeSet id="4" author="your_name">
+        <!-- Операция создания таблицы 'user_activity'. -->
+        <createTable tableName="user_activity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_activity_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+        <sql>
+            -- Добавление комментариев к столбцам
+            ALTER TABLE user_activity
+            MODIFY COLUMN user_id BIGINT COMMENT 'Идентификатор пользователя, связанного с активностью',
+            MODIFY COLUMN user_activity_id BIGINT COMMENT 'Связь с таблицей активностей',
+            MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата создания записи',
+            MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Дата
+            обновления записи';
+        </sql>
+        <!-- Операция отката для удаления таблицы 'user_activity'. -->
+        <rollback>
+            <dropTable tableName="user_activity"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

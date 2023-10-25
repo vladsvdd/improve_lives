@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Этот файл описывает миграцию для создания таблицы 'user'. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!-- Этот changeSet определяет создание таблицы 'user'. -->
+    <changeSet id="3" author="your_name">
+        <!-- Операция создания таблицы 'user'. -->
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_action_id" type="BIGINT" defaultValue="0"/>
+            <column name="is_bot" type="TINYINT" defaultValue="0"/>
+            <column name="user_name" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="language_code" type="VARCHAR(255)"/>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+        <sql>
+            -- Добавление комментариев к столбцам
+            ALTER TABLE user
+            MODIFY COLUMN chat_id BIGINT COMMENT 'Идентификатор чата пользователя в Telegram',
+            MODIFY COLUMN user_action_id BIGINT COMMENT 'Идентификатор действия пользователя',
+            MODIFY COLUMN is_bot INT COMMENT 'Булевое значение, указывающее, является ли пользователь ботом',
+            MODIFY COLUMN user_name VARCHAR(255) COMMENT 'Имя пользователя',
+            MODIFY COLUMN first_name VARCHAR(255) COMMENT 'Имя пользователя (никнейм) в Telegram (может быть пустым)',
+            MODIFY COLUMN last_name VARCHAR(255) COMMENT 'Фамилия пользователя (может быть пустым)',
+            MODIFY COLUMN language_code VARCHAR(255) COMMENT 'Код языка, предпочитаемого пользователем (например, "en"
+            для английского)',
+            MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата создания записи',
+            MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Дата
+            обновления записи';
+        </sql>
+        <!-- Операция отката для удаления таблицы 'user'. -->
+        <rollback>
+            <dropTable tableName="user"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

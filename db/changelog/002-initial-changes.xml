@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Этот файл описывает миграцию для изменения типа данных столбца 'id' в таблице 'example_table' на 'BIGINT'. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!-- Этот changeSet определяет изменение типа данных. -->
+    <changeSet id="2" author="your_name">
+        <modifyDataType tableName="example_table" columnName="id" newDataType="BIGINT"/>
+
+        <!-- Откат к исходному типу данных в случае неудачи. -->
+        <rollback>
+            <modifyDataType tableName="example_table" columnName="id" newDataType="INT"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

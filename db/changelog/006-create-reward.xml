@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Этот файл описывает миграцию для создания таблицы 'reward'. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!-- Этот changeSet определяет создание таблицы 'reward'. -->
+    <changeSet id="6" author="your_name">
+        <!-- Операция создания таблицы 'reward'. -->
+        <createTable tableName="reward">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_deleted" type="BOOLEAN" defaultValue="0"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="coins" type="INT" defaultValue="0"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+        <sql>
+            -- Добавление комментариев к столбцам
+            ALTER TABLE reward
+            MODIFY COLUMN is_deleted BOOLEAN COMMENT 'Запись удалена?',
+            MODIFY COLUMN code VARCHAR(255) COMMENT 'Код награды',
+            MODIFY COLUMN name VARCHAR(255) COMMENT 'Название награды',
+            MODIFY COLUMN coins INT COMMENT 'Количество монет, связанных с наградой',
+            MODIFY COLUMN user_id BIGINT COMMENT 'Идентификатор пользователя, связанного с наградой',
+            MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата создания записи',
+            MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Дата
+            обновления записи';
+        </sql>
+
+        <!-- Операция отката для удаления таблицы 'reward'. -->
+        <rollback>
+            <dropTable tableName="reward"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

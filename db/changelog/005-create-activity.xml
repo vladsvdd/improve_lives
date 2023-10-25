@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Этот файл описывает миграцию для создания таблицы 'activity'. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!-- Этот changeSet определяет создание таблицы 'activity'. -->
+    <changeSet id="5" author="your_name">
+        <!-- Операция создания таблицы 'activity'. -->
+        <createTable tableName="activity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_deleted" type="BOOLEAN" defaultValue="0"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="coins" type="INT" defaultValue="0"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+        <sql>
+            -- Добавление комментариев к столбцам
+            ALTER TABLE activity
+            MODIFY COLUMN is_deleted BOOLEAN COMMENT 'Запись удалена?',
+            MODIFY COLUMN code VARCHAR(255) COMMENT 'Код активности',
+            MODIFY COLUMN name VARCHAR(255) COMMENT 'Название активности',
+            MODIFY COLUMN coins INT COMMENT 'Количество монет, связанных с активностью',
+            MODIFY COLUMN user_id BIGINT COMMENT 'Идентификатор пользователя, связанного с активностью',
+            MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата создания записи',
+            MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Дата
+            обновления записи';
+        </sql>
+        <!-- Операция отката для удаления таблицы 'activity'. -->
+        <rollback>
+            <dropTable tableName="activity"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

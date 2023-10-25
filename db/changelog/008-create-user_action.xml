@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Этот файл описывает миграцию для создания таблицы 'user_action'. -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!-- Этот changeSet определяет создание таблицы 'user_action'. -->
+    <changeSet id="8" author="your_name">
+        <!-- Операция создания таблицы 'user_action'. -->
+        <createTable tableName="user_action">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="parent_id" type="BIGINT" defaultValue="0"/>
+            <column name="action" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+        <sql>
+            -- Добавление комментариев к столбцам
+            ALTER TABLE user_action
+            MODIFY COLUMN parent_id BIGINT COMMENT 'id на родительское действие',
+            MODIFY COLUMN action VARCHAR(255) COMMENT 'Действие пользователя',
+            MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата создания записи',
+            MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Дата
+            обновления записи';
+
+            INSERT INTO user_action (action)
+            VALUES
+                ('add_activity'),
+                ('delete_activity'),
+                ('add_reward'),
+                ('delete_reward');
+        </sql>
+        <!-- Операция отката для удаления таблицы 'user_action'. -->
+        <rollback>
+            <dropTable tableName="user_action"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
