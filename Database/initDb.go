@@ -36,7 +36,6 @@ func InitMySQLDB() (*gorm.DB, error) {
 		Settings.GlobalDbHost,
 		Settings.GlobalDbPort,
 		Settings.GlobalDbDatabase)
-	fmt.Println(dbString)
 	// Откройте соединение с базой данных
 	db, err := gorm.Open(mysql.Open(dbString), &gorm.Config{})
 	if err != nil {
