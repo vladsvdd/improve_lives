@@ -74,7 +74,7 @@ func initEnv() {
 
 func init() {
 	//Settings.GlobalTest меняем на false перед выкладкой в прод
-	Settings.GlobalTest = false
+	Settings.GlobalTest = true
 
 	//.env
 	initEnv()

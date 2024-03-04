@@ -33,9 +33,11 @@ func InitMySQLDB() (*gorm.DB, error) {
 	dbString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		Settings.GlobalDbUsername,
 		Settings.GlobalDbPassword,
-		Settings.GlobalDbHost,
+		//Settings.GlobalDbHost,
+		"localhost",
 		Settings.GlobalDbPort,
 		Settings.GlobalDbDatabase)
+	fmt.Println(dbString)
 	// Откройте соединение с базой данных
 	db, err := gorm.Open(mysql.Open(dbString), &gorm.Config{})
 	if err != nil {
